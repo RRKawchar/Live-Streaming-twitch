@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:live_streaming_pro_2/resources/auth_methods.dart';
+import 'package:live_streaming_pro_2/screen/home_screen.dart';
 import 'package:live_streaming_pro_2/utils/colors.dart';
 import 'package:live_streaming_pro_2/widgets/custom_button.dart';
 import 'package:live_streaming_pro_2/widgets/custom_textfield.dart';
@@ -15,6 +17,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+
+  final AuthMethod _authMethod = AuthMethod();
+
+  void signupUser() async {
+    bool res = await _authMethod.signUpUser(
+      context,
+      _emailController.text,
+      _userNameController.text,
+      _passwordController.text,
+    );
+    if(res){
+     Navigator.pushNamed(context, HomeScreen.routeName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -75,7 +92,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               const SizedBox(height: 20),
               Custombutton(
                 text: "Sign Up",
-                onTap: () {},
+                onTap: signupUser,
               )
             ],
           ),
