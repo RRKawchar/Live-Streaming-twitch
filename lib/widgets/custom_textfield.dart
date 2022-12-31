@@ -9,8 +9,8 @@ class CustomTextField extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextField(
       controller: controller,
-      decoration:  const InputDecoration(
-        focusedBorder: OutlineInputBorder(
+      decoration:  InputDecoration(
+        focusedBorder:const OutlineInputBorder(
           borderSide: BorderSide(
             color: buttonColor,
             width: 2
@@ -18,7 +18,7 @@ class CustomTextField extends StatelessWidget {
         ),
         enabledBorder: OutlineInputBorder(
           borderSide: BorderSide(
-            color: secondaryBackgroundColor,
+            color: buttonColor.withOpacity(.09),
           ),
         ),
       ),
