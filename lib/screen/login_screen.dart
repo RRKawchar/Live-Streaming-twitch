@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:live_streaming_pro_2/resources/auth_methods.dart';
+import 'package:live_streaming_pro_2/screen/home_screen.dart';
 import 'package:live_streaming_pro_2/utils/colors.dart';
 import 'package:live_streaming_pro_2/widgets/custom_button.dart';
 import 'package:live_streaming_pro_2/widgets/custom_textfield.dart';
@@ -12,9 +14,21 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  final AuthMethod _authMethod = AuthMethod();
+
+  userLogin() async {
+    bool res = await _authMethod.loginUser(
+      context,
+      _emailController.text,
+      _passwordController.text,
+    );
+    if(res){
+      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -61,7 +75,7 @@ class _LoginScreenState extends State<LoginScreen> {
               const SizedBox(height: 20),
               Custombutton(
                 text: "Log In",
-                onTap: () {},
+                onTap: userLogin,
               )
             ],
           ),
