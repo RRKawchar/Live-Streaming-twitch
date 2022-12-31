@@ -50,7 +50,7 @@ class AuthMethod {
     String email,
     String password,
   ) async {
-    bool res=false;
+    bool res = false;
     try {
       UserCredential cred = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -58,13 +58,12 @@ class AuthMethod {
       );
 
       if (cred.user != null) {
-        Provider.of<UserProvider>(context,listen: false).setUser(
+        Provider.of<UserProvider>(context, listen: false).setUser(
           Users.fromMap(
             await getCurrentUser(cred.user!.uid) ?? {},
           ),
         );
         res = true;
-
       }
     } on FirebaseAuthException catch (e) {
       print(e.message);
