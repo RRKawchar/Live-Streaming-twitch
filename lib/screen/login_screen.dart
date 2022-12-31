@@ -4,6 +4,7 @@ import 'package:live_streaming_pro_2/screen/home_screen.dart';
 import 'package:live_streaming_pro_2/utils/colors.dart';
 import 'package:live_streaming_pro_2/widgets/custom_button.dart';
 import 'package:live_streaming_pro_2/widgets/custom_textfield.dart';
+import 'package:live_streaming_pro_2/widgets/loading_indicator.dart';
 
 class LoginScreen extends StatefulWidget {
   static const String routeName = '/login';
@@ -17,13 +18,20 @@ class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final AuthMethod _authMethod = AuthMethod();
+  bool _isLoading = false;
 
   userLogin() async {
+    setState(() {
+      _isLoading=true;
+    });
     bool res = await _authMethod.loginUser(
       context,
       _emailController.text,
       _passwordController.text,
     );
+    setState(() {
+      _isLoading=false;
+    });
     if(res){
       Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     }
@@ -45,7 +53,7 @@ class _LoginScreenState extends State<LoginScreen> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: primaryColor),
       ),
-      body: SingleChildScrollView(
+      body:_isLoading?const LoadingIndicator(): SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(

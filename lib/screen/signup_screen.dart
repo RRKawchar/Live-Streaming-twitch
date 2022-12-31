@@ -4,6 +4,7 @@ import 'package:live_streaming_pro_2/screen/home_screen.dart';
 import 'package:live_streaming_pro_2/utils/colors.dart';
 import 'package:live_streaming_pro_2/widgets/custom_button.dart';
 import 'package:live_streaming_pro_2/widgets/custom_textfield.dart';
+import 'package:live_streaming_pro_2/widgets/loading_indicator.dart';
 
 class SignUpScreen extends StatefulWidget {
   static const String routeName = '/signup';
@@ -17,16 +18,23 @@ class _SignUpScreenState extends State<SignUpScreen> {
   final TextEditingController _userNameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
+  bool _isLoading = false;
 
   final AuthMethod _authMethod = AuthMethod();
 
   void signupUser() async {
+    setState(() {
+      _isLoading=true;
+    });
     bool res = await _authMethod.signUpUser(
       context,
       _emailController.text,
       _userNameController.text,
       _passwordController.text,
     );
+    setState(() {
+      _isLoading=false;
+    });
     if(res){
      Navigator.pushReplacementNamed(context, HomeScreen.routeName);
     }
@@ -49,7 +57,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
         centerTitle: true,
         iconTheme: const IconThemeData(color: primaryColor),
       ),
-      body: SingleChildScrollView(
+      body:_isLoading?const LoadingIndicator(): SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Column(
