@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:live_streaming_pro_2/models/users.dart';
+import 'package:live_streaming_pro_2/provider/user_provider.dart';
 import 'package:live_streaming_pro_2/utils/utils.dart';
+import 'package:provider/provider.dart';
 
 class AuthMethod {
   final _userRef = FirebaseFirestore.instance.collection('users');
@@ -26,7 +28,7 @@ class AuthMethod {
         );
 
         await _userRef.doc(cred.user!.uid).set(users.toMap());
-        
+        Provider.of<UserProvider>(context,listen: false).setUser(users);
         res = true;
       }
     } on FirebaseAuthException catch (e) {
