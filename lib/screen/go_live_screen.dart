@@ -2,6 +2,8 @@ import 'dart:typed_data';
 
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:live_streaming_pro_2/resources/firestore_methods.dart';
+import 'package:live_streaming_pro_2/screen/broad_cast_screen.dart';
 import 'package:live_streaming_pro_2/utils/colors.dart';
 import 'package:live_streaming_pro_2/utils/utils.dart';
 import 'package:live_streaming_pro_2/widgets/custom_button.dart';
@@ -23,6 +25,20 @@ class _GoLiveScreenState extends State<GoLiveScreen> {
   void dispose() {
     _titleController.dispose();
     super.dispose();
+  }
+
+  goLiveStream() async {
+    String channelId = await FirestoreMethods()
+        .startLiveStream(context, _titleController.text, image);
+    if (channelId.isNotEmpty) {
+      showSnakBar(context, "livestream has started successfully!");
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => BroadCastScreen(),
+        ),
+      );
+    }
   }
 
   @override
@@ -106,7 +122,7 @@ class _GoLiveScreenState extends State<GoLiveScreen> {
             ),
             Padding(
               padding: const EdgeInsets.only(bottom: 10),
-              child: Custombutton(onTap: () {}, text: "Go Live!"),
+              child: Custombutton(onTap: goLiveStream, text: "Go Live!"),
             )
           ],
         ),
