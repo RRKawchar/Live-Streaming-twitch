@@ -44,6 +44,8 @@ dependencies:
   dotted_border: ^2.0.0+3
   image_picker: ^0.8.6
   file_picker: ^5.2.4
+  agora_rtc_engine: ^6.1.0
+  permission_handler: ^10.2.0
 
 
 dev_dependencies:

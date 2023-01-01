@@ -18,11 +18,11 @@ class FirestoreMethods {
     String channelId = '';
     try {
       if (title.isNotEmpty && image != null) {
-        if (!(await _firestore
+        if (!((await _firestore
                 .collection('livestream')
-                .doc(users.users.uid)
+                .doc("${users.users.uid}${users.users.username}")
                 .get())
-            .exists) {
+            .exists)) {
           String thumbnailUrl = await _storageMethods.uploadImageToStorage(
             'livestream-thumbnail',
             image,
@@ -44,7 +44,7 @@ class FirestoreMethods {
               .doc(channelId)
               .set(liveStream.toMap());
         }else{
-          showSnakBar(context, 'Two livestream create');
+          showSnakBar(context, 'Two livestream created at the same time');
         }
       } else {
         showSnakBar(context, "Please enter all the fields!");
